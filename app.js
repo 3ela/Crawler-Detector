@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const Axios = require('axios');
-const CrawlerMiddleWare = require('./middleware/CrawlerDetect');
+const isbot = require('./middleware/isbot');
 var morgan = require('morgan')
 
 // Server variables
@@ -18,7 +18,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, './dist')));
 app.use(morgan('tiny'));
-app.use(CrawlerMiddleWare);
+app.use(isbot);
 
 var appVars = {
   logo: 'https://snawnaw.com/img/logo3.ae147c78.png',
