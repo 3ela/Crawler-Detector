@@ -10,6 +10,11 @@ require('dotenv').config();
 const port = process.env.PORT || 3000;
 const apiURL = process.env.DEV ? process.env.TEST_API_URL + 'api/' : process.env.LIVE_API_URL + 'api/';
 
+function myhtmlDecode(html) {
+  let tmp = document.createElement("DIV");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+};
 //Axios Defaults
 Axios.defaults.baseURL = apiURL;
 
@@ -63,7 +68,7 @@ app.get([
       res.status(200).render('BusinessReservation', {
         name: data.name,
         type: 'business.reservation',
-        description: data.description ? data.description : data.name,
+        description: data.description ? myhtmlDecode(html) || data.description : data.name,
         image: data.media.length > 0 ? data.media[0].url : appVars.logo,
         id: data.business_id,
         locale: req.params.locale || 'de'
@@ -89,7 +94,7 @@ app.get([
       res.status(200).render('Business', {
         name: data.name,
         type: 'business.profile',
-        description: data.description ? data.description : data.name,
+        description: data.description ? myhtmlDecode(html) || data.description : data.name,
         image: data.media.length > 0 ? data.media[0].url : appVars.logo,
         id: data.business_id,
         locale: req.params.locale || 'de'
